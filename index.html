@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fast MediaInfo</title>
+</head>
+<body>
+    
+    <input type="file" id="file-input">
+    <button onClick="uploadFile" id="upload-btn">upload</button>
+    <pre id="output"></pre>
+    <script>
+        const uploadBtn = document.getElementById("upload-btn");
+        const input = document.getElementById("file-input");
+        const output = document.getElementById("output");
+        function uploadFile(evt) {
+            const file = input.files[0]
+            const slice = file.slice(0, 1024, file.type);
+
+            var fd = new FormData();
+            fd.append('file', slice, file.name);
+            fetch("/upload", {
+                method: "post",
+                body: fd
+            })
+                .then(res => res.json())
+                .then(res => {
+                    output.innerHTML = JSON.stringify(res, null, 4);
+                })
+        }
+
+        uploadBtn.addEventListener("click", uploadFile);
+        input.addEventListener("change", uploadFile);
+   
+    </script>
+  
+</body>
+</html>
