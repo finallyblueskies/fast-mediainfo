@@ -7,16 +7,20 @@
 </head>
 <body>
     
+    <label for="size">Slice size (bytes)</label>
+    <input type="number" name="size" id="size-input" value="1024">
     <input type="file" id="file-input">
     <button onClick="uploadFile" id="upload-btn">upload</button>
     <pre id="output"></pre>
     <script>
         const uploadBtn = document.getElementById("upload-btn");
         const input = document.getElementById("file-input");
+        const sizeInput = document.getElementById("size-input");
         const output = document.getElementById("output");
         function uploadFile(evt) {
+
             const file = input.files[0]
-            const slice = file.slice(0, 1024, file.type);
+            const slice = file.slice(0, sizeInput.value, file.type);
 
             var fd = new FormData();
             fd.append('file', slice, file.name);
